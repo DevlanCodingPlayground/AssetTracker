@@ -104,7 +104,7 @@ class Config(object):
         try:
             
             # Relational DBMS: PSQL, MySql
-            SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
+            SQLALCHEMY_DATABASE_URI = 'mysqli://root@localhost:3306/asset_tracker'.format(
                 DB_ENGINE,
                 DB_USERNAME,
                 DB_PASS,
