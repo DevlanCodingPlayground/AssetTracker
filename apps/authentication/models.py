@@ -78,9 +78,9 @@ class Users(db.Model, UserMixin):
     __tablename__ = 'user'
 
     user_id            = db.Column(db.Integer, primary_key=True)
-    user_fullname = db.Column(db.String(200), unique=False)
-    user_phone_number = db.Column(db.String(200), unique=True)
-    user_email         = db.Column(db.String(200), unique=True)
+    user_fullname = db.Column(db.String(60), unique=False)
+    user_phone_number = db.Column(db.String(60), unique=True)
+    user_email         = db.Column(db.String(60), unique=True)
     user_password      = db.Column(db.LargeBinary)
 
     oauth_github  = db.Column(db.String(100), nullable=True)
@@ -94,13 +94,13 @@ class Users(db.Model, UserMixin):
                 # the ,= unpack of a singleton fails PEP8 (travis flake8 test)
                 value = value[0]
 
-            if property == 'password':
+            if property == 'user_password':
                 value = hash_pass(value)  # we need bytes here (not plain str)
 
             setattr(self, property, value)
 
     def __repr__(self):
-        return str(self.username)
+        return str(self.user_email)
 
     @classmethod
     def find_by_email(cls, user_email: str) -> "Users":
@@ -112,7 +112,7 @@ class Users(db.Model, UserMixin):
     
     @classmethod
     def find_by_id(cls, _id: int) -> "Users":
-        return cls.query.filter_by(id=_id).first()
+        return cls.query.filter_by(user_id=_id).first()
    
     def save(self) -> None:
         try:
