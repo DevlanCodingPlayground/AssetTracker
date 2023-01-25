@@ -65,6 +65,7 @@
 #
 
 import os, random, string
+
 class Config(object):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -89,12 +90,12 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    DB_ENGINE   = os.getenv('DB_ENGINE'   , 'mysqli')
-    DB_USERNAME = os.getenv('DB_USERNAME' , 'root')
+    DB_ENGINE   = os.getenv('DB_ENGINE'   , None)
+    DB_USERNAME = os.getenv('DB_USERNAME' , None)
     DB_PASS     = os.getenv('DB_PASS'     , None)
-    DB_HOST     = os.getenv('DB_HOST'     , 'localhost')
-    DB_PORT     = os.getenv('DB_PORT'     , '3306')
-    DB_NAME     = os.getenv('DB_NAME'     , 'asset_tracker')
+    DB_HOST     = os.getenv('DB_HOST'     , None)
+    DB_PORT     = os.getenv('DB_PORT'     , None)
+    DB_NAME     = os.getenv('DB_NAME'     , None)
 
     USE_SQLITE  = False 
 
@@ -104,7 +105,7 @@ class Config(object):
         try:
             
             # Relational DBMS: PSQL, MySql
-            SQLALCHEMY_DATABASE_URI = 'mysqli://root@localhost:3306/asset_tracker'.format(
+            SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
                 DB_ENGINE,
                 DB_USERNAME,
                 DB_PASS,
