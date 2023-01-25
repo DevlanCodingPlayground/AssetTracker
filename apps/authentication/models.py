@@ -75,12 +75,13 @@ from apps.authentication.util import hash_pass
 
 class Users(db.Model, UserMixin):
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
-    id            = db.Column(db.Integer, primary_key=True)
-    username      = db.Column(db.String(64), unique=True)
-    email         = db.Column(db.String(64), unique=True)
-    password      = db.Column(db.LargeBinary)
+    user_id            = db.Column(db.Integer, primary_key=True)
+    user_fullname = db.Column(db.String(200), unique=False)
+    user_phone_number = db.Column(db.String(200), unique=True)
+    user_email         = db.Column(db.String(200), unique=True)
+    user_password      = db.Column(db.LargeBinary)
 
     oauth_github  = db.Column(db.String(100), nullable=True)
 
@@ -102,12 +103,12 @@ class Users(db.Model, UserMixin):
         return str(self.username)
 
     @classmethod
-    def find_by_email(cls, email: str) -> "Users":
-        return cls.query.filter_by(email=email).first()
+    def find_by_email(cls, user_email: str) -> "Users":
+        return cls.query.filter_by(user_email=user_email).first()
 
     @classmethod
-    def find_by_username(cls, username: str) -> "Users":
-        return cls.query.filter_by(username=username).first()
+    def find_by_username(cls, user_phone_number: str) -> "Users":
+        return cls.query.filter_by(user_phone_number=user_phone_number).first()
     
     @classmethod
     def find_by_id(cls, _id: int) -> "Users":
@@ -136,15 +137,15 @@ class Users(db.Model, UserMixin):
         return
 
 @login_manager.user_loader
-def user_loader(id):
-    return Users.query.filter_by(id=id).first()
+def user_loader(user_id):
+    return Users.query.filter_by(user_id=user_id).first()
 
 @login_manager.request_loader
 def request_loader(request):
-    username = request.form.get('username')
-    user = Users.query.filter_by(username=username).first()
+    user_email = request.form.get('user_email')
+    user = Users.query.filter_by(user_email=user_email).first()
     return user if user else None
 
 class OAuth(OAuthConsumerMixin, db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id", ondelete="cascade"), nullable=False)
     user = db.relationship(Users)

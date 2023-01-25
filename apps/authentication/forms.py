@@ -71,21 +71,24 @@ from wtforms.validators import Email, DataRequired
 
 # login and registration
 class LoginForm(FlaskForm):
-    username = StringField('Username',
-                         id='username_login',
+    user_email = StringField('Email Address',
+                         id='user_email',
                          validators=[DataRequired()])
-    password = PasswordField('Password',
-                             id='pwd_login',
+    user_password = PasswordField('Password',
+                             id='user_password',
                              validators=[DataRequired()])
 
 
 class CreateAccountForm(FlaskForm):
-    username = StringField('Username',
-                         id='username_create',
+    user_fullname = StringField('Full Names',
+                         id='user_fullname',
                          validators=[DataRequired()])
-    email = StringField('Email',
-                      id='email_create',
+    user_phone_number = StringField('Phone Number',
+                         id='user_phone_number',
+                         validators=[DataRequired()])
+    user_email = StringField('Email',
+                      id='user_email',
                       validators=[DataRequired(), Email()])
-    password = PasswordField('Password',
-                             id='pwd_create',
+    user_password = PasswordField('Password',
+                             id='user_password',
                              validators=[DataRequired()])
