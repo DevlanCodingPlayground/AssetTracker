@@ -35,16 +35,22 @@
           {{ form.hidden_tag() }}
 
           <div class="input-group mb-3">
-            {{ form.username(placeholder="Username", class="form-control") }}
+            {{ form.user_fullname(placeholder="Full Names",
+            class="form-control") }}
           </div>
 
           <div class="input-group mb-3">
-            {{ form.email(placeholder="Email", class="input form-control",
+            {{ form.user_phone_number(placeholder="Phone Number",
+            class="form-control") }}
+          </div>
+
+          <div class="input-group mb-3">
+            {{ form.user_email(placeholder="Email", class="input form-control",
             type="email") }}
           </div>
 
           <div class="input-group mb-4">
-            {{ form.password(placeholder="Password", class="form-control",
+            {{ form.user_password(placeholder="Password", class="form-control",
             type="password") }}
           </div>
 
