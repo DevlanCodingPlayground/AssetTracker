@@ -95,14 +95,18 @@ def login_github():
     res = github.get("/user")
     return redirect(url_for('home_blueprint.index'))
 
+
+
+
+""" Login  """
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm(request.form)
     if 'login' in request.form:
 
         # read form data
-        user_id  = request.form['username'] # we can have here username OR email
-        password = request.form['password']
+        user_id  = request.form['user_email'] # we can have here username OR email
+        password = request.form['user_password']
 
         # Locate user
         user = Users.find_by_username(user_id)
@@ -134,27 +138,29 @@ def login():
     return redirect(url_for('home_blueprint.index'))
 
 
+
+""" Register """
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     create_account_form = CreateAccountForm(request.form)
     if 'register' in request.form:
 
-        username = request.form['username']
-        email = request.form['email']
+        user_phone_number = request.form['user_phone_number']
+        user_email = request.form['user_email']
 
         # Check usename exists
-        user = Users.query.filter_by(username=username).first()
+        user = Users.query.filter_by(user_phone_number=user_phone_number).first()
         if user:
             return render_template('accounts/register.html',
-                                   msg='Username already registered',
+                                   msg='Phone Number Already Registered',
                                    success=False,
                                    form=create_account_form)
 
         # Check email exists
-        user = Users.query.filter_by(email=email).first()
+        user = Users.query.filter_by(user_email=user_email).first()
         if user:
             return render_template('accounts/register.html',
-                                   msg='Email already registered',
+                                   msg='Email Already Registered',
                                    success=False,
                                    form=create_account_form)
 
@@ -167,7 +173,7 @@ def register():
         logout_user()
 
         return render_template('accounts/register.html',
-                               msg='User created successfully.',
+                               msg='Account created successfully.',
                                success=True,
                                form=create_account_form)
 
