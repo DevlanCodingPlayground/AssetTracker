@@ -65,7 +65,6 @@
 #
 
 import os, random, string
-
 class Config(object):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -90,12 +89,12 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    DB_ENGINE   = os.getenv('DB_ENGINE'   , None)
-    DB_USERNAME = os.getenv('DB_USERNAME' , None)
+    DB_ENGINE   = os.getenv('DB_ENGINE'   , 'mysqli')
+    DB_USERNAME = os.getenv('DB_USERNAME' , 'root')
     DB_PASS     = os.getenv('DB_PASS'     , None)
-    DB_HOST     = os.getenv('DB_HOST'     , None)
-    DB_PORT     = os.getenv('DB_PORT'     , None)
-    DB_NAME     = os.getenv('DB_NAME'     , None)
+    DB_HOST     = os.getenv('DB_HOST'     , 'localhost')
+    DB_PORT     = os.getenv('DB_PORT'     , '3306')
+    DB_NAME     = os.getenv('DB_NAME'     , 'asset_tracker')
 
     USE_SQLITE  = False 
 
@@ -125,6 +124,7 @@ class Config(object):
 
         # This will create a file in <app> FOLDER
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+        
     
 class ProductionConfig(Config):
     DEBUG = False
