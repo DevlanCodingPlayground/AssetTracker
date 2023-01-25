@@ -77,7 +77,7 @@ class Users(db.Model, UserMixin):
 
     __tablename__ = 'user'
 
-    user_id            = db.Column(db.Integer, primary_key=True)
+    id            = db.Column(db.Integer, primary_key=True)
     user_fullname = db.Column(db.String(60), unique=False)
     user_phone_number = db.Column(db.String(60), unique=True)
     user_email         = db.Column(db.String(60), unique=True)
@@ -107,12 +107,12 @@ class Users(db.Model, UserMixin):
         return cls.query.filter_by(user_email=user_email).first()
 
     @classmethod
-    def find_by_username(cls, user_phone_number: str) -> "Users":
+    def find_by_phonenumber(cls, user_phone_number: str) -> "Users":
         return cls.query.filter_by(user_phone_number=user_phone_number).first()
     
     @classmethod
     def find_by_id(cls, _id: int) -> "Users":
-        return cls.query.filter_by(user_id=_id).first()
+        return cls.query.filter_by(id=_id).first()
    
     def save(self) -> None:
         try:
@@ -137,8 +137,8 @@ class Users(db.Model, UserMixin):
         return
 
 @login_manager.user_loader
-def user_loader(user_id):
-    return Users.query.filter_by(user_id=user_id).first()
+def user_loader(id):
+    return Users.query.filter_by(id=id).first()
 
 @login_manager.request_loader
 def request_loader(request):
@@ -147,5 +147,5 @@ def request_loader(request):
     return user if user else None
 
 class OAuth(OAuthConsumerMixin, db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id", ondelete="cascade"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="cascade"), nullable=False)
     user = db.relationship(Users)

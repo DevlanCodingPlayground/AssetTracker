@@ -105,16 +105,16 @@ def login():
     if 'login' in request.form:
 
         # read form data
-        user_id  = request.form['user_email'] # we can have here username OR email
-        password = request.form['user_password']
+        user_email  = request.form['user_email']
+        user_password = request.form['user_password']
 
         # Locate user
-        user = Users.find_by_username(user_id)
+        user = Users.find_by_phonenumber(user_email)
 
         # if user not found
         if not user:
 
-            user = Users.find_by_email(user_id)
+            user = Users.find_by_email(user_email)
 
             if not user:
                 return render_template( 'accounts/login.html',
@@ -122,7 +122,7 @@ def login():
                                         form=login_form)
 
         # Check the password
-        if verify_pass(password, user.password):
+        if verify_pass(user_password, user.user_password):
 
             login_user(user)
             return redirect(url_for('authentication_blueprint.route_default'))
